@@ -33,13 +33,8 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "pedido", fetch = FetchType.LAZY)
-	@JsonManagedReference
-	private List<DetallePedido> detalle;
-
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente", nullable = false)
-	@JsonBackReference
 	private Cliente cliente;
 
 	public Pedido( Cliente cliente) {
