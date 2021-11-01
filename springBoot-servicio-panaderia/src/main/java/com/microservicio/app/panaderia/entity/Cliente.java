@@ -32,10 +32,7 @@ public class Cliente  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  
 	private Long id;
 	private String nombre;
-	
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.REMOVE) 
-	@JsonManagedReference  
 	private List<Pedido> pedido;
 
 
