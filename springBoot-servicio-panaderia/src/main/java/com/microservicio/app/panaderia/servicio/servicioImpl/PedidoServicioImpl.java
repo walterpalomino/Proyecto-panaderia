@@ -1,19 +1,16 @@
-package com.microservicio.app.panaderia.servicio;
+package com.microservicio.app.panaderia.servicio.servicioImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.servicio.PedidoServicio;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.microservicio.app.panaderia.entity.DetallePedido;
 import com.microservicio.app.panaderia.entity.Pedido;
-import com.microservicio.app.panaderia.entity.Producto;
 import com.microservicio.app.panaderia.repository.DetallePedidoRepository;
 import com.microservicio.app.panaderia.repository.PedidoRepository;
 
@@ -63,7 +60,7 @@ public class PedidoServicioImpl implements PedidoServicio {
 			  
 		      Pedido pedidoId = repo.save(new Pedido(p.getCliente()));
 		       
-		      p.getDetalle().stream().map(d -> detalleRepo.save(new DetallePedido(d.getProducto(), d.getCantidad(),pedidoId))).collect(Collectors.toList());
+		 //     p.getDetalle().stream().map(d -> detalleRepo.save(new DetallePedido(d.getProducto(), d.getCantidad(),pedidoId))).collect(Collectors.toList());
 		      
 		       
 		      return pedidoId;

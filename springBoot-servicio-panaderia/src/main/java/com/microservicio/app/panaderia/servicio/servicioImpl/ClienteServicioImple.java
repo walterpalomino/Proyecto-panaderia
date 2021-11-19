@@ -1,8 +1,9 @@
-package com.microservicio.app.panaderia.servicio;
+package com.microservicio.app.panaderia.servicio.servicioImpl;
 
 
 import java.util.List;
 
+import com.microservicio.app.panaderia.servicio.ClienteServicio;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
