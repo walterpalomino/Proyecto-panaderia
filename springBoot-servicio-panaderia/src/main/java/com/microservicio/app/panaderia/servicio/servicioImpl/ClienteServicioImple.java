@@ -2,7 +2,9 @@ package com.microservicio.app.panaderia.servicio.servicioImpl;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.ClienteDto;
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,37 +17,33 @@ import com.microservicio.app.panaderia.repository.ClienteRepository;
 @Slf4j
 public class ClienteServicioImple implements ClienteServicio {
 
-	@Autowired
-	private ClienteRepository repo;
-	
-	@Override
-	public List<Cliente> findAll() {
-		
-		List<Cliente> lista= null;
-		
-		try {
-			
-			
-			 lista = repo.findAll();
-			
-		} catch (Exception e) {
-			log.error(e);
-		}
-		return lista;
-	}
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-	@Override
-	public Object createCliente(Cliente cliente) {
-		
-		try {
-			
-			Cliente c = repo.save(cliente);
-			
-			
-		} catch (Exception e) {
-			
-		}
-		return null;
-	}
+    @Override
+    public List<ClienteDto> buscarClientes() {
+
+        return clienteRepository.findAll()
+                .stream()
+                .map(cliente -> ClienteDto.builder()
+                        .id(cliente.getId())
+                        .nombre(cliente.getNombre())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Object createCliente(Cliente cliente) {
+
+        try {
+
+            Cliente c = clienteRepository.save(cliente);
+
+
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
 
 }
