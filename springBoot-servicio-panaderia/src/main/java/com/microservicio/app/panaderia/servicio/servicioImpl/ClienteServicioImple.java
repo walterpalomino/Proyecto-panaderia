@@ -4,8 +4,7 @@ package com.microservicio.app.panaderia.servicio.servicioImpl;
 import java.util.List;
 
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,11 @@ import com.microservicio.app.panaderia.entity.Cliente;
 import com.microservicio.app.panaderia.repository.ClienteRepository;
 
 @Service
+@Slf4j
 public class ClienteServicioImple implements ClienteServicio {
 
 	@Autowired
 	private ClienteRepository repo;
-	
-	private static final Log log= LogFactory.getLog(ClienteServicioImple.class);
 	
 	@Override
 	public List<Cliente> findAll() {
