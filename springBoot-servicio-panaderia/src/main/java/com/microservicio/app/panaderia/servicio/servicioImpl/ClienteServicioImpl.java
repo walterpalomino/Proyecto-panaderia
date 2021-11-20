@@ -4,6 +4,7 @@ package com.microservicio.app.panaderia.servicio.servicioImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.ClienteCrearDto;
 import com.microservicio.app.panaderia.dto.ClienteDto;
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import com.microservicio.app.panaderia.repository.ClienteRepository;
 
 @Service
 @Slf4j
-public class ClienteServicioImple implements ClienteServicio {
+public class ClienteServicioImpl implements ClienteServicio {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -33,17 +34,10 @@ public class ClienteServicioImple implements ClienteServicio {
     }
 
     @Override
-    public Object createCliente(Cliente cliente) {
+    public Object createCliente(ClienteCrearDto clienteCrearDto) {
 
-        try {
+            return clienteRepository.save(clienteCrearDto.toCliente());
 
-            Cliente c = clienteRepository.save(cliente);
-
-
-        } catch (Exception e) {
-
-        }
-        return null;
     }
 
 }
