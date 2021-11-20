@@ -1,48 +1,44 @@
 package com.microservicio.app.panaderia.contrioller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.ClienteCrearDto;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.microservicio.app.panaderia.entity.Cliente;
-import com.microservicio.app.panaderia.entity.Pedido;
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
 
 @RestController
+@RequestMapping("/api")
+@Slf4j
 public class ClienteController {
-	
-	@Autowired
-	private ClienteServicio servicio;
-	
-	private static final Log log = LogFactory.getLog(ClienteController.class);
-	
-	@GetMapping("/listado")	
-	public ResponseEntity<List<Cliente>> listadoCliente()
-	{
-		try {
-			
-			return ResponseEntity.ok().body(servicio.findAll());
-			
-		} catch (Exception e) {
-			log.error(e);
-		}
-		
-		return null;
-	}
-	
-	@PostMapping("/crearCliente")
-	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c)
-	{
-		return ResponseEntity.status(HttpStatus.CREATED).body((Cliente)servicio.createCliente(c));
-		
-	} 
+
+    @Autowired
+    private ClienteServicio clienteServicio;
+
+    @GetMapping("/listado-cliente")
+    public ResponseEntity<List<Cliente>> listadoCliente() {
+
+        log.info("Listado de clientes. ");
+        clienteServicio.buscarClientes()
+                .forEach(cliente -> {log.info(cliente.toString());});
+
+        return ResponseEntity.ok().body(clienteServicio.buscarClientes());
+    }
+
+    @PostMapping("/crear-cliente")
+    public ResponseEntity<Cliente> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
+
+        log.info("Se dio de alta cliente : " + clienteCrearDto.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body((Cliente) clienteServicio.createCliente(clienteCrearDto));
+
+    }
 
 }
