@@ -3,6 +3,7 @@ package com.microservicio.app.panaderia.contrioller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.ClienteCrearDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,9 +33,11 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteServicio.buscarClientes());
     }
 
-    @PostMapping("/crearCliente")
-    public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c) {
-        return ResponseEntity.status(HttpStatus.CREATED).body((Cliente) clienteServicio.createCliente(c));
+    @PostMapping("/crear-cliente")
+    public ResponseEntity<Cliente> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
+
+        log.info("Se dio de alta cliente : " + clienteCrearDto.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body((Cliente) clienteServicio.createCliente(clienteCrearDto));
 
     }
 
