@@ -12,6 +12,6 @@ public interface ClienteServicio {
 	public ClienteDto createCliente(ClienteCrearDto clienteCrearDto);
 	public ClienteDto buscarClienteId(long id);
 	public ClienteDto actualizarCliente(long id, ClienteCrearDto clienteDto);
-	public void eliminarCliente();
+	public void eliminarCliente(long id);
 
 }
