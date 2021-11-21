@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.microservicio.app.panaderia.dto.ClienteCrearDto;
+import com.microservicio.app.panaderia.dto.ClienteDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,7 +25,7 @@ public class ClienteController {
     private ClienteServicio clienteServicio;
 
     @GetMapping("/listado-cliente")
-    public ResponseEntity<List<Cliente>> listadoCliente() {
+    public ResponseEntity<List<ClienteDto>> listadoCliente() {
 
         log.info("Listado de clientes. ");
         clienteServicio.buscarClientes()
@@ -34,10 +35,10 @@ public class ClienteController {
     }
 
     @PostMapping("/crear-cliente")
-    public ResponseEntity<Cliente> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
+    public ResponseEntity<ClienteDto> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
 
         log.info("Se dio de alta cliente : " + clienteCrearDto.toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body((Cliente) clienteServicio.createCliente(clienteCrearDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.createCliente(clienteCrearDto));
 
     }
 
