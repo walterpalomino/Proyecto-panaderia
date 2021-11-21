@@ -56,8 +56,12 @@ public class ClienteServicioImpl implements ClienteServicio {
     }
 
     @Override
-    public ClienteDto actualizarCliente(long id, ClienteDto clienteDto) {
-        return null;
+    public ClienteDto actualizarCliente(long id, ClienteCrearDto clienteDto) {
+
+        ClienteDto updateClienteDto = this.buscarClienteId(id);
+
+        clienteDto.setId(updateClienteDto.getId());
+        return new ClienteDto(clienteRepository.save(clienteDto.toCliente()));
     }
 
     @Override
