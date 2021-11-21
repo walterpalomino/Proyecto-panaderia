@@ -49,6 +49,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
         if(cliente.isEmpty()){
 
+            log.info("Cliente con id " + id + " no existe");
             throw new NoSuchElementException("No se encontro el id " + id);
         }
 
@@ -61,12 +62,18 @@ public class ClienteServicioImpl implements ClienteServicio {
         ClienteDto updateClienteDto = this.buscarClienteId(id);
 
         clienteDto.setId(updateClienteDto.getId());
+
+        log.info("Se actualizo el cliente " + clienteDto.toString());
         return new ClienteDto(clienteRepository.save(clienteDto.toCliente()));
     }
 
     @Override
-    public void eliminarCliente() {
+    public void eliminarCliente(long id) {
 
+        ClienteDto eliminarClienteDto = this.buscarClienteId(id);
+        clienteRepository.deleteById(id);
+
+        log.info("Se elimino el cliente " + eliminarClienteDto.toString());
     }
 
 }
