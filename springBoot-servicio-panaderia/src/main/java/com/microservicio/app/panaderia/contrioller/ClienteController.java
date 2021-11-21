@@ -1,19 +1,14 @@
 package com.microservicio.app.panaderia.contrioller;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import com.microservicio.app.panaderia.dto.ClienteCrearDto;
 import com.microservicio.app.panaderia.dto.ClienteDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.microservicio.app.panaderia.entity.Cliente;
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
 
 @RestController
@@ -40,6 +35,12 @@ public class ClienteController {
         log.info("Se dio de alta cliente : " + clienteCrearDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.createCliente(clienteCrearDto));
 
+    }
+
+    @PutMapping("7actualizar-cliente")
+    public ResponseEntity<ClienteDto> updateCliente(@PathVariable long id, @RequestBody ClienteCrearDto clienteCrearDto){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.actualizarCliente(id, clienteCrearDto));
     }
 
 }
