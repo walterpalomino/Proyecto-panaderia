@@ -37,10 +37,17 @@ public class ClienteController {
 
     }
 
-    @PutMapping("7actualizar-cliente")
+    @PutMapping("/actualizar-cliente/{id}")
     public ResponseEntity<ClienteDto> updateCliente(@PathVariable long id, @RequestBody ClienteCrearDto clienteCrearDto){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.actualizarCliente(id, clienteCrearDto));
+    }
+
+    @DeleteMapping("eliminar-cliente/{id}")
+    public ResponseEntity eliminarCliente(@PathVariable long id){
+
+        clienteServicio.eliminarCliente(id);
+        return ResponseEntity.ok().build();
     }
 
 }
