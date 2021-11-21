@@ -2,6 +2,8 @@ package com.microservicio.app.panaderia.servicio.servicioImpl;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.microservicio.app.panaderia.dto.ClienteCrearDto;
@@ -34,9 +36,32 @@ public class ClienteServicioImpl implements ClienteServicio {
     }
 
     @Override
-    public Object createCliente(ClienteCrearDto clienteCrearDto) {
+    public ClienteDto createCliente(ClienteCrearDto clienteCrearDto) {
 
-            return clienteRepository.save(clienteCrearDto.toCliente());
+        return new ClienteDto(clienteRepository.save(clienteCrearDto.toCliente()));
+
+    }
+
+    @Override
+    public ClienteDto buscarClienteId(long id) {
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if(cliente.isEmpty()){
+
+            throw new NoSuchElementException("No se encontro el id " + id);
+        }
+
+        return cliente.map(clienteDto -> new ClienteDto(clienteDto.getId(),clienteDto.getNombre())).get();
+    }
+
+    @Override
+    public ClienteDto actualizarCliente(long id, ClienteDto clienteDto) {
+        return null;
+    }
+
+    @Override
+    public void eliminarCliente() {
 
     }
 
