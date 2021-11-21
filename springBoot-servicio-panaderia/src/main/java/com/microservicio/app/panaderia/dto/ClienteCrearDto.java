@@ -12,6 +12,7 @@ public class ClienteCrearDto {
     public Cliente toCliente(){
 
         return Cliente.builder()
+                .id(this.getId())
                 .nombre(this.getNombre())
                 .build();
     }
