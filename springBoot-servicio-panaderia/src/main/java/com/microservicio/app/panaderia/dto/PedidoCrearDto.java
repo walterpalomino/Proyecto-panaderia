@@ -18,13 +18,13 @@ public class PedidoCrearDto {
     private double importeTotal;
     private String fecha;
 
-    public Pedido toPedido(PedidoCrearDto pedidoCrearDto){
+    public Pedido toPedido(){
 
         return Pedido.builder()
-                .id(pedidoCrearDto.getId())
-                .cliente(pedidoCrearDto.getCliente())
-                .importeTotal(pedidoCrearDto.getImporteTotal())
-                .fecha(pedidoCrearDto.getFecha())
+                .id(getId())
+                .cliente(getCliente())
+                .importeTotal(getImporteTotal())
+                .fecha(getFecha())
                 .build();
     }
 }
