@@ -1,43 +1,37 @@
 package com.microservicio.app.panaderia.servicio.servicioImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.PedidoDto;
 import com.microservicio.app.panaderia.servicio.PedidoServicio;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microservicio.app.panaderia.entity.Pedido;
-import com.microservicio.app.panaderia.repository.DetallePedidoRepository;
 import com.microservicio.app.panaderia.repository.PedidoRepository;
 
 @Service
+@Slf4j
 public class PedidoServicioImpl implements PedidoServicio {
 
-	private final static Log log = LogFactory.getLog(PedidoServicioImpl.class);
-
 	@Autowired
-	PedidoRepository repo;
-	
-	@Autowired
-	private DetallePedidoRepository detalleRepo;
+	PedidoRepository pedidoRepository;
 
 	@Override
-	public List<Pedido> findAll() {
+	public List<PedidoDto> findAll() {
 
-		List<Pedido> listadoP = new ArrayList<>();
-
-		try {
-
-			listadoP = repo.findAll();
-
-		} catch (Exception e) { 
-			log.error(e);
-		}
-		return listadoP;
+		return pedidoRepository.findAll()
+				.stream()
+				.map(pedidoDto -> PedidoDto.builder()
+						.id(pedidoDto.getId())
+						.cliente(pedidoDto.getCliente())
+						.importeTotal(pedidoDto.getImporteTotal())
+						.fecha(pedidoDto.getFecha())
+						.build())
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -58,7 +52,7 @@ public class PedidoServicioImpl implements PedidoServicio {
 				 */
 				 		  
 			  
-		      Pedido pedidoId = repo.save(new Pedido(p.getCliente()));
+		      Pedido pedidoId = pedidoRepository.save(new Pedido(p.getCliente()));
 		       
 		 //     p.getDetalle().stream().map(d -> detalleRepo.save(new DetallePedido(d.getProducto(), d.getCantidad(),pedidoId))).collect(Collectors.toList());
 		      
@@ -68,7 +62,7 @@ public class PedidoServicioImpl implements PedidoServicio {
 			
 		} catch (Exception e) {
 
-			log.error(e);
+			log.error(e.getMessage());
 			return null;
 		}
 		
@@ -77,7 +71,7 @@ public class PedidoServicioImpl implements PedidoServicio {
 	@Override
 	public Pedido findById(Long id) throws Exception {
 		try {		
-			Pedido p = repo.findById(id).get();
+			Pedido p = pedidoRepository.findById(id).get();
 			return p;
 		} catch (NoSuchElementException e) {
 			log.debug(e.getMessage());
