@@ -66,6 +66,9 @@ public class PedidoServicioImpl implements PedidoServicio {
 	@Override
 	public void deletePedido(long id) {
 
+		this.findById(id);
+		pedidoRepository.deleteById(id);
+
 	}
 
 }
