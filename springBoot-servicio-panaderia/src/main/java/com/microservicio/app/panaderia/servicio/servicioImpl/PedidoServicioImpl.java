@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.PedidoCrearDto;
 import com.microservicio.app.panaderia.dto.PedidoDto;
 import com.microservicio.app.panaderia.servicio.PedidoServicio;
 import lombok.extern.slf4j.Slf4j;
@@ -35,37 +36,9 @@ public class PedidoServicioImpl implements PedidoServicio {
 	}
 
 	@Override
-	public Pedido addPedido(Pedido p) {
+	public PedidoDto addPedido(PedidoCrearDto pedidoCrearDto) {
 
-		
-		
-		try {
-			/*
-			 * pedidoId.setCliente(p.getCliente()); 
-			 * pedidoId.setDetalle(p.getDetalle());
-			 */
-			  
-				/*
-				 * p.getDetalle().forEach(d -> pedido.getDetalle().add(new DetallePedido(new
-				 * Producto(d.getProducto().getId(), d.getProducto().getNombre()),
-				 * d.getCantidad())));
-				 */
-				 		  
-			  
-		      Pedido pedidoId = pedidoRepository.save(new Pedido(p.getCliente()));
-		       
-		 //     p.getDetalle().stream().map(d -> detalleRepo.save(new DetallePedido(d.getProducto(), d.getCantidad(),pedidoId))).collect(Collectors.toList());
-		      
-		       
-		      return pedidoId;
-		     
-			
-		} catch (Exception e) {
-
-			log.error(e.getMessage());
-			return null;
-		}
-		
+		return new PedidoDto(pedidoRepository.save(pedidoCrearDto.toPedido()));
 	}
 
 	@Override
@@ -78,6 +51,16 @@ public class PedidoServicioImpl implements PedidoServicio {
 			throw new NoSuchElementException("El usuario no existe " + id);
 		}
 		
+	}
+
+	@Override
+	public PedidoDto updatePedido(long id, PedidoCrearDto pedidoCrearDto) {
+		return null;
+	}
+
+	@Override
+	public void deletePedido(long id) {
+
 	}
 
 }
