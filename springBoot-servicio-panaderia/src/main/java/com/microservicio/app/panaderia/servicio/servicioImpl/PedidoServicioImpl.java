@@ -56,7 +56,11 @@ public class PedidoServicioImpl implements PedidoServicio {
 
 	@Override
 	public PedidoDto updatePedido(long id, PedidoCrearDto pedidoCrearDto) {
-		return null;
+
+		this.findById(id);
+
+		pedidoCrearDto.setId(id);
+		return new PedidoDto(pedidoRepository.save(pedidoCrearDto.toPedido()));
 	}
 
 	@Override
