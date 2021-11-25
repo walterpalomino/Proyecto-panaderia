@@ -2,6 +2,8 @@ package com.microservicio.app.panaderia.contrioller;
 
 import java.util.List;
 
+import com.microservicio.app.panaderia.dto.PedidoCrearDto;
+import com.microservicio.app.panaderia.dto.PedidoDto;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class PedidoController {
 	private PedidoServicio servicio;
 
 	@GetMapping("/listadoPedido")
-	public ResponseEntity<List<Pedido>> listado() {
+	public ResponseEntity<List<PedidoDto>> listado() {
 	//	try {
 
 			return ResponseEntity.ok(servicio.findAll());
@@ -39,20 +41,13 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/buscar/{id}")
-	public ResponseEntity<Pedido> buscarPedido(@PathVariable Long id) {
-		try {
+	public ResponseEntity<PedidoDto> buscarPedido(@PathVariable Long id) {
 
 			return ResponseEntity.ok(servicio.findById(id));
-
-		} catch (Exception e) {
-			log.error(e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-
 	}
-
+/*
 	@PostMapping("/guardarPedido")
-	public ResponseEntity<Pedido> addPedido(@RequestBody Pedido p) {
+	public ResponseEntity<Pedido> addPedido(@RequestBody PedidoCrearDto p) {
 		try {
 			
 			log.error(p.getCliente().getId());
@@ -64,4 +59,6 @@ public class PedidoController {
 		}
 	}
 
+
+ */
 }
