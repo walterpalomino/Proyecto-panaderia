@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.microservicio.app.panaderia.entity.Pedido;
 import com.microservicio.app.panaderia.repository.PedidoRepository;
 
 @Service
@@ -42,15 +41,17 @@ public class PedidoServicioImpl implements PedidoServicio {
 	}
 
 	@Override
-	public Pedido findById(Long id) throws Exception {
-		try {		
-			Pedido p = pedidoRepository.findById(id).get();
-			return p;
-		} catch (NoSuchElementException e) {
-			log.debug(e.getMessage());
-			throw new NoSuchElementException("El usuario no existe " + id);
-		}
-		
+	public PedidoDto findById(Long id){
+
+		return	pedidoRepository.findById(id)
+					.map(pedidoDto -> PedidoDto.builder()
+							.id(pedidoDto.getId())
+							.cliente(pedidoDto.getCliente())
+							.importeTotal(pedidoDto.getImporteTotal())
+							.fecha(pedidoDto.getFecha())
+							.build())
+					.orElseThrow(() -> new NoSuchElementException("El pedido con id " + id + " no existe"));
+
 	}
 
 	@Override
