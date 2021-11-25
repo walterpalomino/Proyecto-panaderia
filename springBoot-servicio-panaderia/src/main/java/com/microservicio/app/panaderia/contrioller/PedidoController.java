@@ -47,6 +47,13 @@ public class PedidoController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(pedidoServicio.updatePedido(id, pedidoCrearDto));
 	}
 
+	@DeleteMapping("/eliminar-pedido/{id}")
+	public ResponseEntity eliminarPedido(@PathVariable long id){
+
+		pedidoServicio.deletePedido(id);
+		return ResponseEntity.ok().build();
+	}
+
 
 
 }
