@@ -56,7 +56,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDto actualizarProducto(long id, ProductoCrearDto productoCrearDto) {
-        return null;
+
+        this.buscarProductoId(id);
+        productoCrearDto.setId(id);
+
+        return new ProductoDto(productoRepository.save(productoCrearDto.toProducto()));
     }
 
     @Override
