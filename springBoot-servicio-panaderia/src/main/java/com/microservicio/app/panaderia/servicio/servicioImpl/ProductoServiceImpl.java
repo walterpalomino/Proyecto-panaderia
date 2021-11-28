@@ -4,6 +4,7 @@ import com.microservicio.app.panaderia.dto.ProductoCrearDto;
 import com.microservicio.app.panaderia.dto.ProductoDto;
 import com.microservicio.app.panaderia.repository.ProductoRepository;
 import com.microservicio.app.panaderia.servicio.ProductoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
@@ -65,6 +67,9 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public void eliminarProducto(long id) {
+
+        this.buscarProductoId(id);
+        productoRepository.deleteById(id);
 
     }
 }
