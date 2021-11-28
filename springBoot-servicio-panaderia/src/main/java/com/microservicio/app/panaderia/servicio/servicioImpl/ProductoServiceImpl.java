@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +41,17 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDto buscarProductoId(long id) {
-        return null;
+
+        return productoRepository.findById(id)
+                .map(producto -> ProductoDto.builder()
+                        .id(producto.getId())
+                        .nombre(producto.getNombre())
+                        .precio(producto.getPrecio())
+                        .stockMinimo(producto.getStockMinimo())
+                        .stockMaximo(producto.getStockMaximo())
+                        .stockActual(producto.getStockActual())
+                        .build())
+                .orElseThrow(()-> new NoSuchElementException("No existe el id " + id + " para algun producto"));
     }
 
     @Override
