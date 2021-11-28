@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ProductoService {
 
-    public List<ProductoDto> buscarClientes();
-    public ProductoDto createCliente(ProductoCrearDto productoCrearDto);
-    public ProductoDto buscarClienteId(long id);
-    public ProductoDto actualizarCliente(long id, ProductoCrearDto productoCrearDto);
-    public void eliminarCliente(long id);
+    public List<ProductoDto> listaProductos();
+    public ProductoDto addProducto(ProductoCrearDto productoCrearDto);
+    public ProductoDto buscarProductoId(long id);
+    public ProductoDto actualizarProducto(long id, ProductoCrearDto productoCrearDto);
+    public void eliminarProducto(long id);
 }
