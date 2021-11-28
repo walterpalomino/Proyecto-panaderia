@@ -34,7 +34,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDto addProducto(ProductoCrearDto productoCrearDto) {
-        return null;
+
+        return new ProductoDto(productoRepository.save(productoCrearDto.toProducto()));
     }
 
     @Override
