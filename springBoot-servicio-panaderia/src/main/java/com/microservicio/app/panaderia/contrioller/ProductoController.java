@@ -23,20 +23,20 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.listaProductos());
     }
 
-    @GetMapping("buscar-producto/{id}")
+    @GetMapping("/buscar-producto/{id}")
     public ResponseEntity<ProductoDto> buscarProductoId(@PathVariable long id){
 
         return ResponseEntity.ok(productoService.buscarProductoId(id));
     }
 
-    @PutMapping("actualizar-producto/{id}")
+    @PutMapping("/actualizar-producto/{id}")
     public ResponseEntity<ProductoDto> actualizarProducto(@PathVariable long id, @RequestBody ProductoCrearDto productoCrearDto){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(productoService.actualizarProducto(id, productoCrearDto));
 
     }
 
-    @DeleteMapping("eliminar-producto/{id}")
+    @DeleteMapping("/eliminar-producto/{id}")
     public ResponseEntity eliminarProducto(@PathVariable long id){
 
         productoService.eliminarProducto(id);
