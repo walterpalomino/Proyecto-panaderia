@@ -1,89 +1,74 @@
 package com.microservicio.app.panaderia.servicio.servicioImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
+import com.microservicio.app.panaderia.dto.PedidoCrearDto;
+import com.microservicio.app.panaderia.dto.PedidoDto;
 import com.microservicio.app.panaderia.servicio.PedidoServicio;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.microservicio.app.panaderia.entity.Pedido;
-import com.microservicio.app.panaderia.repository.DetallePedidoRepository;
 import com.microservicio.app.panaderia.repository.PedidoRepository;
 
 @Service
+@Slf4j
 public class PedidoServicioImpl implements PedidoServicio {
 
-	private final static Log log = LogFactory.getLog(PedidoServicioImpl.class);
-
 	@Autowired
-	PedidoRepository repo;
-	
-	@Autowired
-	private DetallePedidoRepository detalleRepo;
+	PedidoRepository pedidoRepository;
 
 	@Override
-	public List<Pedido> findAll() {
+	public List<PedidoDto> findAll() {
 
-		List<Pedido> listadoP = new ArrayList<>();
-
-		try {
-
-			listadoP = repo.findAll();
-
-		} catch (Exception e) { 
-			log.error(e);
-		}
-		return listadoP;
+		return pedidoRepository.findAll()
+				.stream()
+				.map(pedidoDto -> PedidoDto.builder()
+						.id(pedidoDto.getId())
+						.cliente(pedidoDto.getCliente())
+						.importeTotal(pedidoDto.getImporteTotal())
+						.fecha(pedidoDto.getFecha())
+						.build())
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pedido addPedido(Pedido p) {
+	public PedidoDto addPedido(PedidoCrearDto pedidoCrearDto) {
 
-		
-		
-		try {
-			/*
-			 * pedidoId.setCliente(p.getCliente()); 
-			 * pedidoId.setDetalle(p.getDetalle());
-			 */
-			  
-				/*
-				 * p.getDetalle().forEach(d -> pedido.getDetalle().add(new DetallePedido(new
-				 * Producto(d.getProducto().getId(), d.getProducto().getNombre()),
-				 * d.getCantidad())));
-				 */
-				 		  
-			  
-		      Pedido pedidoId = repo.save(new Pedido(p.getCliente()));
-		       
-		 //     p.getDetalle().stream().map(d -> detalleRepo.save(new DetallePedido(d.getProducto(), d.getCantidad(),pedidoId))).collect(Collectors.toList());
-		      
-		       
-		      return pedidoId;
-		     
-			
-		} catch (Exception e) {
-
-			log.error(e);
-			return null;
-		}
-		
+		return new PedidoDto(pedidoRepository.save(pedidoCrearDto.toPedido()));
 	}
 
 	@Override
-	public Pedido findById(Long id) throws Exception {
-		try {		
-			Pedido p = repo.findById(id).get();
-			return p;
-		} catch (NoSuchElementException e) {
-			log.debug(e.getMessage());
-			throw new NoSuchElementException("El usuario no existe " + id);
-		}
-		
+	public PedidoDto findById(Long id){
+
+		return	pedidoRepository.findById(id)
+					.map(pedidoDto -> PedidoDto.builder()
+							.id(pedidoDto.getId())
+							.cliente(pedidoDto.getCliente())
+							.importeTotal(pedidoDto.getImporteTotal())
+							.fecha(pedidoDto.getFecha())
+							.build())
+					.orElseThrow(() -> new NoSuchElementException("El pedido con id " + id + " no existe"));
+
+	}
+
+	@Override
+	public PedidoDto updatePedido(long id, PedidoCrearDto pedidoCrearDto) {
+
+		this.findById(id);
+
+		pedidoCrearDto.setId(id);
+		return new PedidoDto(pedidoRepository.save(pedidoCrearDto.toPedido()));
+	}
+
+	@Override
+	public void deletePedido(long id) {
+
+		this.findById(id);
+		pedidoRepository.deleteById(id);
+
 	}
 
 }

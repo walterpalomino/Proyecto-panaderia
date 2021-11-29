@@ -1,18 +1,14 @@
 package com.microservicio.app.panaderia.contrioller;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import com.microservicio.app.panaderia.dto.ClienteCrearDto;
+import com.microservicio.app.panaderia.dto.ClienteDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.microservicio.app.panaderia.entity.Cliente;
 import com.microservicio.app.panaderia.servicio.ClienteServicio;
 
 @RestController
@@ -24,7 +20,7 @@ public class ClienteController {
     private ClienteServicio clienteServicio;
 
     @GetMapping("/listado-cliente")
-    public ResponseEntity<List<Cliente>> listadoCliente() {
+    public ResponseEntity<List<ClienteDto>> listadoCliente() {
 
         log.info("Listado de clientes. ");
         clienteServicio.buscarClientes()
@@ -34,11 +30,24 @@ public class ClienteController {
     }
 
     @PostMapping("/crear-cliente")
-    public ResponseEntity<Cliente> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
+    public ResponseEntity<ClienteDto> addCliente(@RequestBody ClienteCrearDto clienteCrearDto) {
 
         log.info("Se dio de alta cliente : " + clienteCrearDto.toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body((Cliente) clienteServicio.createCliente(clienteCrearDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.createCliente(clienteCrearDto));
 
+    }
+
+    @PutMapping("/actualizar-cliente/{id}")
+    public ResponseEntity<ClienteDto> updateCliente(@PathVariable long id, @RequestBody ClienteCrearDto clienteCrearDto){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.actualizarCliente(id, clienteCrearDto));
+    }
+
+    @DeleteMapping("eliminar-cliente/{id}")
+    public ResponseEntity eliminarCliente(@PathVariable long id){
+
+        clienteServicio.eliminarCliente(id);
+        return ResponseEntity.ok().build();
     }
 
 }
