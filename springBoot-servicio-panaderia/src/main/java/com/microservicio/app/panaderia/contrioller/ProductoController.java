@@ -43,6 +43,12 @@ public class ProductoController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/nuevo-producto")
+    public ResponseEntity<ProductoDto> nuevoProducto(@RequestBody ProductoCrearDto productoCrearDto){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoService.addProducto(productoCrearDto));
+    }
+
 
 
 }
