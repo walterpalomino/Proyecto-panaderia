@@ -1,31 +1,15 @@
 package com.microservicio.app.panaderia.entity;
 
-
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-
-@NoArgsConstructor @Setter @Getter @AllArgsConstructor
+@Data
+@NoArgsConstructor @AllArgsConstructor
 @Entity 
 @Table(name="detalle_pedido")
 public class DetallePedido  {
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +24,12 @@ public class DetallePedido  {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido")
 	private Pedido pedido;
+
+	@Column(name = "precio_unitario")
+	private double precioUnitario;
+
+	@Column(name = "sub_total")
+	private double subTotal;
 
 	public DetallePedido(Producto producto, String cantidad) {
 		
