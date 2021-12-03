@@ -21,7 +21,7 @@ public class DetallePedido  {
 	@JoinColumn(name = "producto")
 	private Producto producto;
 	
-	private String cantidad;	
+	private int cantidad;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido")
@@ -33,13 +33,13 @@ public class DetallePedido  {
 	@Column(name = "sub_total")
 	private double subTotal;
 
-	public DetallePedido(Producto producto, String cantidad) {
+	public DetallePedido(Producto producto, int cantidad) {
 		
 		this.producto = producto;
 		this.cantidad = cantidad;
 	}
 
-	public DetallePedido(Producto producto, String cantidad, Pedido pedido) {
+	public DetallePedido(Producto producto, int cantidad, Pedido pedido) {
 		
 		this.producto = producto;
 		this.cantidad = cantidad;

@@ -72,4 +72,9 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.deleteById(id);
 
     }
+
+    public boolean validarStockProducto(int cantidad, int stockActual){
+
+        return stockActual >= cantidad;
+    }
 }
