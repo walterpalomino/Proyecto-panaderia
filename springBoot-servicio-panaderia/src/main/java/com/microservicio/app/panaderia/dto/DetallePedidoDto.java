@@ -15,7 +15,7 @@ public class DetallePedidoDto {
 
     private Long id;
     private Producto producto;
-    private String cantidad;
+    private int cantidad;
     private Pedido pedido;
     private double precioUnitario;
     private double subTotal;
