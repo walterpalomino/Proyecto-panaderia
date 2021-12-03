@@ -2,12 +2,15 @@ package com.microservicio.app.panaderia.servicio.servicioImpl;
 
 import com.microservicio.app.panaderia.dto.DetallePedidoCrearDto;
 import com.microservicio.app.panaderia.dto.DetallePedidoDto;
+import com.microservicio.app.panaderia.dto.ProductoDto;
+import com.microservicio.app.panaderia.entity.DetallePedido;
 import com.microservicio.app.panaderia.repository.DetallePedidoRepository;
 import com.microservicio.app.panaderia.servicio.DetallePedidoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,6 +20,9 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
 
     @Autowired
     private DetallePedidoRepository detallePedidoRepository;
+
+    @Autowired
+    private ProductoServiceImpl productoService;
 
     @Override
     public List<DetallePedidoDto> listadoDetallePedido() {
@@ -44,6 +50,18 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
 
     @Override
     public void nuevoDetallePedido(List<DetallePedidoCrearDto> detallePedidoCrearDto) {
+
+        for (DetallePedidoCrearDto detalle: detallePedidoCrearDto) {
+
+           ProductoDto productoDto = productoService.buscarProductoId(detalle.getProducto().getId());
+
+           if(!productoService.validarStockProducto(detalle.getCantidad(), productoDto.getStockActual())){
+
+               throw new NoSuchElementException("No hay stock suficiente para el producto " + productoDto.getNombre());
+           }
+        }
+        DetallePedidoCrearDto detallePedidoCrearDto1 = new DetallePedidoCrearDto();
+        detallePedidoRepository.saveAll(detallePedidoCrearDto1.toDetallePedido(detallePedidoCrearDto));
 
     }
 
