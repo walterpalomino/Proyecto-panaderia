@@ -68,5 +68,7 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
     @Override
     public void eliminarDetallePedido(long id) {
 
+        this.buscarDetallePedido(id);
+        detallePedidoRepository.deleteById(id);
     }
 }
